@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { axiosInstance } from "./axiosInstance";
 
 interface AuthState {
   accessToken: string | undefined;
@@ -19,14 +20,13 @@ const initialState: AuthState = {
 export const login = createAsyncThunk(
   "auth/login",
   async (
-    credentials: { userEmail: string; password: string },
+    data: { userEmail: string; password: string },
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5098/Accounts/login",
-        credentials
-      );
+      const response = await axiosInstance.post("/Accounts/login", data, {
+        withCredentials: true,
+      });
       console.log(response.data);
       return response.data.result;
     } catch (error: any) {
