@@ -1,15 +1,10 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQuery } from "../../shared/baseQuery";
-import { Envelope } from "../../shared/types/Envelope";
-
-interface Species {
-  id: string;
-  name: string;
-}
+import { baseQueryWithRefresh } from "../../shared/baseQuery";
+import { Species } from "./types/Species";
 
 export const speciesApi = createApi({
   reducerPath: "speciesApi",
-  baseQuery,
+  baseQuery: baseQueryWithRefresh,
   endpoints: (builder) => ({
     getSpecies: builder.query<Species[], void>({
       query: () => ({

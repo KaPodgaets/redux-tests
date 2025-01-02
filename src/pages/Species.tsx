@@ -4,21 +4,17 @@ import {
   useAddSpeciesMutation,
   useUpdateSpeciesMutation,
 } from "../modules/species/speciesApi";
+import { useFetchSpeciesQuery } from "../modules/species/speciesApiRTK";
+import { Species } from "../modules/species/types/Species";
 
 const SpeciesList: React.FC = () => {
-  const { data: species, isLoading, refetch } = useGetSpeciesQuery();
-  const [addSpecies] = useAddSpeciesMutation();
-  const [updateSpecies] = useUpdateSpeciesMutation();
+  // const { data: species, isLoading, refetch } = useGetSpeciesQuery();
+  // const [addSpecies] = useAddSpeciesMutation();
+  // const [updateSpecies] = useUpdateSpeciesMutation();
+
+  const { data: species, isLoading, refetch } = useFetchSpeciesQuery();
 
   if (isLoading) return <p>Loading...</p>;
-
-  const handleAdd = () => {
-    addSpecies({ name: "New Species" });
-  };
-
-  const handleUpdate = (id: string) => {
-    updateSpecies({ id, name: "Updated Species" });
-  };
 
   const handleQuery = () => {
     refetch();
@@ -27,10 +23,9 @@ const SpeciesList: React.FC = () => {
 
   return (
     <div>
-      <button onClick={handleAdd}>Add Species</button>
       <button onClick={handleQuery}>Get Species</button>
       <ul>
-        {species?.map((s) => (
+        {species?.map((s: Species) => (
           <li key={s.id}>{s.name}</li>
         ))}
       </ul>
